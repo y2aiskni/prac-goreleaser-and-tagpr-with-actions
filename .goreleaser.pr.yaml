@@ -40,4 +40,4 @@ blobs:
     endpoint: "{{ .Env.BUILD_ARTIFACTS_S3_ENDPOINT }}"
     region: "{{ .Env.BUILD_ARTIFACTS_S3_REGION }}"
     bucket: "{{ .Env.BUILD_ARTIFACTS_S3_BUCKET }}"
-    directory: prac-goreleaser-and-tagpr-with-actions/build/{{ .Now.Format "20060102.150405"}}_{{ .ENV.PR_NUMBER}}_{{ .ShortCommit }}
+    directory: prac-goreleaser-and-tagpr-with-actions/build/{{ .Version }}
