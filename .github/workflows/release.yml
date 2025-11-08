@@ -38,3 +38,4 @@ jobs:
           BUILD_ARTIFACTS_S3_ENDPOINT: ${{ vars.BUILD_ARTIFACTS_S3_ENDPOINT }}
           BUILD_ARTIFACTS_S3_REGION: ${{ vars.BUILD_ARTIFACTS_S3_REGION }}
           BUILD_ARTIFACTS_S3_BUCKET: ${{ vars.BUILD_ARTIFACTS_S3_BUCKET }}
+          PR_NUMBER: ${{ github.event.number }}
