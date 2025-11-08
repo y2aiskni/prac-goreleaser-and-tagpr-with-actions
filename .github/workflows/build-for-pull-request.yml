@@ -35,7 +35,7 @@ jobs:
         with:
           distribution: goreleaser
           version: "~> v2"
-          args: release --clean -f .goreleaser.pr.yaml
+          args: release --clean -f .goreleaser.pr.yaml --skip validate
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.BUILD_ARTIFACTS_S3_ACCESS_KEY_ID }}
