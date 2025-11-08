@@ -1,0 +1,46 @@
+version: 2
+
+project_name: testapp
+
+vars:
+  version: '{{ .Now.Format "20060102.150405"}}_{{ .ENV.PR_NUMBER}}_{{ .ShortCommit }}'
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - formats: [tar.gz]
+    name_template: >-
+      {{ tolower .ProjectName }}_
+      {{- tolower .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ tolower .Arch }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+
+changelog:
+  disable: true
+
+release:
+  disable: true
+
+blobs:
+  - provider: s3
+    endpoint: "{{ .Env.BUILD_ARTIFACTS_S3_ENDPOINT }}"
+    region: "{{ .Env.BUILD_ARTIFACTS_S3_REGION }}"
+    bucket: "{{ .Env.BUILD_ARTIFACTS_S3_BUCKET }}"
+    directory: prac-goreleaser-and-tagpr-with-actions/build/v{{ .Vars.version }}
