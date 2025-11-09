@@ -1,5 +1,7 @@
 # Changelog
 
+## [v0.0.8](https://github.com/y2aiskni/prac-goreleaser-and-tagpr-with-actions/compare/v0.0.7...v0.0.8) - 2025-11-09
+
 ## [v0.0.7](https://github.com/y2aiskni/prac-goreleaser-and-tagpr-with-actions/compare/v0.0.6...v0.0.7) - 2025-11-09
 - goreleaserを使って開発ビルドを行う by @y2aiskni in https://github.com/y2aiskni/prac-goreleaser-and-tagpr-with-actions/pull/1
 
