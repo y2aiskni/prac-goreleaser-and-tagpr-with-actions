@@ -1,9 +1,7 @@
-name: Release
+name: Build for Pull Request
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  pull_request:
 
 permissions:
   contents: write
@@ -11,7 +9,23 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+
+    container:
+      image: ubuntu:24.04
+      env:
+        TZ: "Asia/Tokyo"
+
     steps:
+      # コンテナを使う場合、ホスト側の権限が引き継がれてしまうため、明示的に権限を設定する
+      - name: Set permissions
+        run: |
+          chown -R root:root ..
+
+      - name: Install dependencies
+        run: |
+          apt-get update
+          apt-get install -y tzdata git
+
       - name: Checkout
         uses: actions/checkout@v4
         with:
@@ -22,12 +36,20 @@ jobs:
         with:
           go-version: stable
 
+      - name: Set Version Number
+        id: version
+        run: |
+          echo "VERSION=$(date '+%Y%m%d.%H%M%S')_${PR_NUMBER}_$(echo $COMMIT_SHA | cut -c -7)" >> $GITHUB_ENV
+        env:
+          COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+
       - name: Run GoReleaser
         uses: goreleaser/goreleaser-action@v6
         with:
           distribution: goreleaser
           version: "~> v2"
-          args: release --clean
+          args: release --clean -f .goreleaser.pr.yaml --skip validate
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AWS_ACCESS_KEY_ID: ${{ secrets.BUILD_ARTIFACTS_S3_ACCESS_KEY_ID }}
@@ -37,4 +59,4 @@ jobs:
           BUILD_ARTIFACTS_S3_ENDPOINT: ${{ vars.BUILD_ARTIFACTS_S3_ENDPOINT }}
           BUILD_ARTIFACTS_S3_REGION: ${{ vars.BUILD_ARTIFACTS_S3_REGION }}
           BUILD_ARTIFACTS_S3_BUCKET: ${{ vars.BUILD_ARTIFACTS_S3_BUCKET }}
-          PR_NUMBER: ${{ github.event.number }}
+          GORELEASER_CURRENT_TAG: ${{ env.VERSION }}
