@@ -17,6 +17,11 @@ jobs:
       image: ubuntu:24.04
 
     steps:
+      # コンテナを使う場合、ホスト側の権限が引き継がれてしまうため、明示的に権限を設定する
+      - name: Set permissions
+        run: |
+          chmod -R root:root ..
+
       - name: Install dependencies
         run: |
           apt-get update
