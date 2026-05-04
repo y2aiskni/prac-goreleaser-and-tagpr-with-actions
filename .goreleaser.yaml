@@ -32,13 +32,6 @@ archives:
 changelog:
   use: github
 
-release:
-  footer: >-
-
-    ---
-
-    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
-
 blobs:
   - provider: s3
     endpoint: "{{ .Env.BUILD_ARTIFACTS_S3_ENDPOINT }}"
