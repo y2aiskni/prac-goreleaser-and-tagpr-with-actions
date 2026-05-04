@@ -1,13 +1,16 @@
 version: 2
 
-project_name: testapp
+project_name: test
 
 before:
   hooks:
     - go mod tidy
 
 builds:
-  - env:
+  - id: hoge
+    main: .
+    binary: hoge
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
@@ -16,28 +19,27 @@ builds:
     goarch:
       - amd64
       - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+      - goos: darwin
+        goarch: amd64
 
 archives:
-  - formats: [tar.gz]
+  - formats:
+      - tar.gz
     name_template: >-
       {{ tolower .ProjectName }}_
+      {{- tolower .Binary }}_
       {{- tolower .Os }}_
-      {{- if eq .Arch "amd64" }}x86_64
-      {{- else if eq .Arch "386" }}i386
-      {{- else }}{{ tolower .Arch }}{{ end }}
+      {{- if eq .Arch "386" }}i386{{ else }}{{ tolower .Arch }}{{ end }}
     format_overrides:
       - goos: windows
-        formats: [zip]
+        formats:
+          - zip
 
 changelog:
   use: github
-
-release:
-  footer: >-
-
-    ---
-
-    Released by [GoReleaser](https://github.com/goreleaser/goreleaser).
 
 blobs:
   - provider: s3
