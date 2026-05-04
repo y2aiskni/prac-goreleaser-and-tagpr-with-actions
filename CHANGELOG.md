@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.0](https://github.com/y2aiskni/prac-goreleaser-and-tagpr-with-actions/compare/v0.0.8...v0.1.0) - 2026-05-04
+- Actionsのバージョンアップとワークフロー見直し by @y2aiskni in https://github.com/y2aiskni/prac-goreleaser-and-tagpr-with-actions/pull/4
+
 ## [v0.0.8](https://github.com/y2aiskni/prac-goreleaser-and-tagpr-with-actions/compare/v0.0.7...v0.0.8) - 2025-11-09
 
 ## [v0.0.7](https://github.com/y2aiskni/prac-goreleaser-and-tagpr-with-actions/compare/v0.0.6...v0.0.7) - 2025-11-09
